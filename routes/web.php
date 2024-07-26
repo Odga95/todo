@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('tasklist.index');
 });
 
-Route::resource('tasks', TaskController::class);
+Route::resource('/tasks', TaskController::class);
 Route::get('/edit', [TaskController::class,'edit'])->name('edit');
 Route::put('/tasks/{id}', [TaskController::class, 'update']);

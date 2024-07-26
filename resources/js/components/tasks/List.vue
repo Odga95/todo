@@ -13,11 +13,21 @@
                   <table class="w-full caption-bottom text-sm">
                     <tbody class="[&amp;_tr:last-child]:border-0">
                       <div
-                        v-for="task in tasks"
+                        v-for="task in tasks.data"
                         :key="task.id"
                         class="px-5 flex flex-row items-center justify-center border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                       >
-                        <input type="checkbox" @click="completedTask(task)" />
+                        <input
+                          type="checkbox"
+                          @click="completedTask(task)"
+                          :checked="task.completed == 1"
+                          v-if="task.completed == 1"
+                        />
+                        <input
+                          type="checkbox"
+                          @click="completedTask(task)"
+                          v-if="task.completed == 0"
+                        />
                         <p class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
                           {{ task.todo }}
                         </p>
@@ -66,6 +76,12 @@
                           </button>
                         </div>
                       </div>
+                      <div class="p-4" id="pagination">
+                        <pagination-tailwind
+                          :data="tasks"
+                          @pagination-change-page="getTasks"
+                        />
+                      </div>
                     </tbody>
                   </table>
                 </div>
@@ -84,7 +100,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      tasks: [],
+      tasks: {
+        data: [],
+        current_page: 1,
+        last_page: 1,
+      },
     };
   },
   created() {
@@ -92,9 +112,9 @@ export default {
   },
 
   methods: {
-    getTasks() {
+    getTasks(page = 1) {
       axios
-        .get("/tasks")
+        .get("/tasks?page=" + page)
         .then((response) => (this.tasks = response.data))
         .catch((error) => {
           console.error(error);
@@ -116,7 +136,7 @@ export default {
       task.completed = task.completed === 0 ? 1 : 0;
 
       axios
-        .put(`/tasks/${task.id}`, { todo: task.todo, completed: task.completed }) 
+        .put(`/tasks/${task.id}`, { todo: task.todo, completed: task.completed })
         .then((response) => {
           console.log("Task updated:", response.data);
         })

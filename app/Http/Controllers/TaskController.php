@@ -10,7 +10,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::paginate(5);
         return response()->json($tasks);
     }
 
@@ -19,8 +19,6 @@ class TaskController extends Controller
     {
         Task::create($request->all());
     }
-
-
 
     public function edit(string $id)
     {

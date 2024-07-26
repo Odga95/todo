@@ -3,13 +3,7 @@
     <div class="mx-auto max-w-2xl space-y-2 mt-12 bg-white py-12 px-8 rounded-lg">
       <div class="text-left flex justify-left gap-6 items-center">
         <h1 class="text-base font-bold">Editar Tarea {{ id }}</h1>
-        <!-- El botón de visibilidad está comentado porque no estaba definido en el código, pero puedes reactivarlo si lo necesitas -->
-        <!-- <button
-          class="relative bg-slate-700 w-5 h-5 font-bold rounded-full flex justify-center items-center text-white"
-          @click="toggleDivVisibility"
-        >
-          <span class="h-0 absolute flex justify-center items-center top-2 left-0">+</span>
-        </button> -->
+
       </div>
       <div class="space-y-4">
         <form
